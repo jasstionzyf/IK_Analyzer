@@ -10,7 +10,7 @@ package org.wltea.analyzer.core;
  * @author jasstion
  */
 public enum CorpusType {
-        MESSAGE(1),NICKNAME(2),SELFINTRODUCE(3);
+        MESSAGE(1),NICKNAME(2),SELFINTRODUCE(3),STOP(4);
 	private int corpusType=-1;
 	private CorpusType(int value) {
 		this.corpusType = value;
