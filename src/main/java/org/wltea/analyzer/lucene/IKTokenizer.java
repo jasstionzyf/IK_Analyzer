@@ -31,6 +31,8 @@ import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
 
@@ -38,6 +40,8 @@ import org.wltea.analyzer.core.Lexeme;
  * IK分词器 Lucene Tokenizer适配器类 兼容Lucene 3.1以上版本
  */
 public final class IKTokenizer extends Tokenizer {
+
+    private static Logger log = LoggerFactory.getLogger(IKTokenizer.class);
 
     //IK分词器实现
     private IKSegmenter _IKImplement;
@@ -60,7 +64,7 @@ public final class IKTokenizer extends Tokenizer {
         offsetAtt = addAttribute(OffsetAttribute.class);
         termAtt = addAttribute(CharTermAttribute.class);
         typeAttribute = addAttribute(TypeAttribute.class);
-        
+
         _IKImplement = new IKSegmenter(in, useSmart);
     }
 
@@ -83,11 +87,11 @@ public final class IKTokenizer extends Tokenizer {
             offsetAtt.setOffset(nextLexeme.getBeginPosition(), nextLexeme.getEndPosition());
             //记录分词的最后位置
             finalOffset = nextLexeme.getEndPosition();
-            String corpusTypeStr="";
+            String corpusTypeStr = "";
             for (int corpusType : nextLexeme.getCorpusTypes()) {
-                corpusTypeStr+=corpusType;
+                corpusTypeStr += corpusType;
             }
-            typeAttribute.setType(String.valueOf(nextLexeme.getLexemeType()+"_"+corpusTypeStr));
+            typeAttribute.setType(String.valueOf(nextLexeme.getLexemeType() + "_" + corpusTypeStr));
             //返会true告知还有下个词元
             return true;
         }

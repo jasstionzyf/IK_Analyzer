@@ -26,11 +26,16 @@ import java.io.Reader;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.solr.analysis.SolrAnalyzer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.wltea.analyzer.dic.IKWordsLoader;
 
 /**
  * IK分词器，Lucene Analyzer接口实现 兼容Lucene 3.1以上版本
  */
 public final class IKAnalyzer extends SolrAnalyzer {
+        private static Logger log = LoggerFactory.getLogger(IKAnalyzer.class);
+
 
     private boolean useSmart = true;
 

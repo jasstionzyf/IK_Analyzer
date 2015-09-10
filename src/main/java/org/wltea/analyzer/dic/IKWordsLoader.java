@@ -14,14 +14,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Properties;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author jasstion
  */
-public class IKWordsLoader implements WordsLoader{
-  public static Properties dicProp = new Properties();
+public class IKWordsLoader implements WordsLoader {
+
+    private static Logger log = LoggerFactory.getLogger(IKWordsLoader.class);
+
+    public static Properties dicProp = new Properties();
 
     static {
         try {
@@ -32,8 +36,9 @@ public class IKWordsLoader implements WordsLoader{
             throw new RuntimeException();
         }
     }
-    private Collection<Word> loadFromOneFile(String filePath,int corpusType){
-        Collection<Word> words=Lists.newArrayList();
+
+    private Collection<Word> loadFromOneFile(String filePath, int corpusType) {
+        Collection<Word> words = Lists.newArrayList();
         System.out.println("加载扩展词典：" + filePath);
         InputStream is = null;
         try {
@@ -50,7 +55,7 @@ public class IKWordsLoader implements WordsLoader{
             do {
                 theWord = br.readLine();
                 if (theWord != null && !"".equals(theWord.trim())) {
-                   words.add(new Word(theWord.trim(),corpusType));
+                    words.add(new Word(theWord.trim(), corpusType));
                 }
             } while (theWord != null);
 
@@ -69,25 +74,24 @@ public class IKWordsLoader implements WordsLoader{
             }
         }
         return words;
-        
+
     }
+
     @Override
     public Collection<Word> load() {
-        Collection<Word> words=Lists.newArrayList();
-         //读取扩展词典文件
-         String message = dicProp.getProperty("dicPath") + "message.dic";//1
+        Collection<Word> words = Lists.newArrayList();
+        //读取扩展词典文件
+        String message = dicProp.getProperty("dicPath") + "message.dic";//1
         String nickname = dicProp.getProperty("dicPath") + "nickname.dic";//2
         String selfintroduce = dicProp.getProperty("dicPath") + "selfintroduce.dic";//3
         String stopWords = dicProp.getProperty("dicPath") + "stopword.dic";//4
-        
+
         words.addAll(loadFromOneFile(nickname, 2));
         words.addAll(loadFromOneFile(message, 1));
         words.addAll(loadFromOneFile(selfintroduce, 3));
         words.addAll(loadFromOneFile(stopWords, 4));
         return words;
-        
-        
-        
+
     }
-    
+
 }

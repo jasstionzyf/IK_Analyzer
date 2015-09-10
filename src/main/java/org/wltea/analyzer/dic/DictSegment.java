@@ -29,11 +29,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 词典树分段，表示词典树的一个分枝
  */
 public class DictSegment implements Comparable<DictSegment> {
+
+    private static Logger log = LoggerFactory.getLogger(DictSegment.class);
 
     //公用字典表，存储汉字
     private static final Map<Character, Character> charMap = new HashMap<Character, Character>(16, 0.95f);
@@ -47,19 +51,18 @@ public class DictSegment implements Comparable<DictSegment> {
 
     //当前节点上存储的字符
     private Character nodeChar;
-	//当前节点存储的Segment数目
+    //当前节点存储的Segment数目
     //storeSize <=ARRAY_LENGTH_LIMIT ，使用数组存储， storeSize >ARRAY_LENGTH_LIMIT ,则使用Map存储
     private int storeSize = 0;
     //当前DictSegment状态 ,默认 0 , 1表示从根节点到当前节点的路径表示一个词
     private int nodeState = 0;
     //词的来源，与词典名称一一对应， 比如： 脏词词典， 机构词词典等
-   // private int[]  corpusTypes=new int[3];
-    private List<Integer> corpusTypes=Lists.newArrayList();
+    // private int[]  corpusTypes=new int[3];
+    private List<Integer> corpusTypes = Lists.newArrayList();
 
     public List<Integer> getCorpusTypes() {
         return corpusTypes;
     }
-    
 
     DictSegment(Character nodeChar) {
         if (nodeChar == null) {
@@ -179,8 +182,9 @@ public class DictSegment implements Comparable<DictSegment> {
     void fillSegment(char[] charArray) {
         this.fillSegment(charArray, 0, charArray.length, 1);
     }
-     void fillSegment(char[] charArray,int corpusType) {
-        this.fillSegment(charArray, 0, charArray.length, 1,corpusType);
+
+    void fillSegment(char[] charArray, int corpusType) {
+        this.fillSegment(charArray, 0, charArray.length, 1, corpusType);
     }
 
     /**
@@ -191,7 +195,6 @@ public class DictSegment implements Comparable<DictSegment> {
     void disableSegment(char[] charArray) {
         this.fillSegment(charArray, 0, charArray.length, 0);
     }
-     
 
     /**
      * 加载填充词典片段
@@ -219,14 +222,15 @@ public class DictSegment implements Comparable<DictSegment> {
                 //词元还没有完全加入词典树
                 ds.fillSegment(charArray, begin + 1, length - 1, enabled);
             } else if (length == 1) {
-				//已经是词元的最后一个char,设置当前节点状态为enabled，
+                //已经是词元的最后一个char,设置当前节点状态为enabled，
                 //enabled=1表明一个完整的词，enabled=0表示从词典中屏蔽当前词
                 ds.nodeState = enabled;
             }
         }
 
     }
-    private synchronized void fillSegment(char[] charArray, int begin, int length, int enabled,int corpusType) {
+
+    private synchronized void fillSegment(char[] charArray, int begin, int length, int enabled, int corpusType) {
         //获取字典表中的汉字对象
         Character beginChar = new Character(charArray[begin]);
         Character keyChar = charMap.get(beginChar);
@@ -242,22 +246,21 @@ public class DictSegment implements Comparable<DictSegment> {
             //处理keyChar对应的segment
             if (length > 1) {
                 //词元还没有完全加入词典树
-                ds.fillSegment(charArray, begin + 1, length - 1, enabled,corpusType);
+                ds.fillSegment(charArray, begin + 1, length - 1, enabled, corpusType);
             } else if (length == 1) {
-				//已经是词元的最后一个char,设置当前节点状态为enabled，
+                //已经是词元的最后一个char,设置当前节点状态为enabled，
                 //enabled=1表明一个完整的词，enabled=0表示从词典中屏蔽当前词
                 ds.nodeState = enabled;
 //               if(!ds.getCorpusTypes().contains(corpusType)){
 //                    ds.getCorpusTypes().add(corpusType);
 //               }
-                if(!corpusTypes.contains(corpusType)){
+                if (!corpusTypes.contains(corpusType)) {
                     corpusTypes.add(corpusType);
                 }
-                  if(!ds.getCorpusTypes().contains(corpusType)){
+                if (!ds.getCorpusTypes().contains(corpusType)) {
                     ds.getCorpusTypes().add(corpusType);
                 }
-                
-                
+
             }
         }
 
@@ -296,7 +299,7 @@ public class DictSegment implements Comparable<DictSegment> {
                     Arrays.sort(segmentArray, 0, this.storeSize);
 
                 } else {
-					//数组容量已满，切换Map存储
+                    //数组容量已满，切换Map存储
                     //获取Map容器，如果Map未创建,则创建Map
                     Map<Character, DictSegment> segmentMap = getChildrenMap();
                     //将数组中的segment迁移到Map中
