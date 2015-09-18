@@ -30,7 +30,7 @@ public class Dictionary {
 
     }
 
-    public static void setDictionary(Dictionary dictionary) {
+    public static synchronized void setDictionary(Dictionary dictionary) {
         Dictionary.dictionary = dictionary;
 
     }
@@ -44,7 +44,7 @@ public class Dictionary {
     }
 
     private void init() {
-        Collection<Word> words = wordsLoader.load();
+        Iterable<Word> words = wordsLoader.load();
         for (Word word : words) {
             this.addWord(word);
         }

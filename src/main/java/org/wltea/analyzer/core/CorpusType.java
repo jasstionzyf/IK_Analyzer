@@ -18,5 +18,11 @@ public enum CorpusType {
         public int getCorpusType(){
             return corpusType;
         }
+
+    @Override
+    public String toString() {
+        return String.valueOf(corpusType);
+    }
+        
 	
 }

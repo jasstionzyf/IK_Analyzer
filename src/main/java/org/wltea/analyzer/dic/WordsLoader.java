@@ -12,6 +12,6 @@ import java.util.Collection;
  * @author jasstion
  */
 public interface WordsLoader {
-    public Collection<Word> load();
+    public Iterable<Word> load();
     
 }
