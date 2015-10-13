@@ -5,8 +5,6 @@
  */
 package org.wltea.analyzer.dic;
 
-import java.util.Collection;
-
 /**
  *
  * @author jasstion
