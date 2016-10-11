@@ -24,13 +24,13 @@
 package org.wltea.analyzer.dic;
 
 import com.google.common.collect.Lists;
-import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 词典树分段，表示词典树的一个分枝
@@ -159,6 +159,7 @@ public class DictSegment implements Comparable<DictSegment> {
                 if (ds.nodeState == 1) {
                     //添加HIT状态为完全匹配
                     searchHit.setMatch();
+                    searchHit.setMatchedDictSegment(ds);
                 }
                 if (ds.hasNextNode()) {
                     //添加HIT状态为前缀匹配

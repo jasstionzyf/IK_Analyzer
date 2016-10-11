@@ -22,11 +22,12 @@
  */
 package org.wltea.analyzer.core;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import org.wltea.analyzer.dic.DictSegment;
 import org.wltea.analyzer.dic.Dictionary;
 import org.wltea.analyzer.dic.Hit;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 中文-日韩文子分词器
@@ -56,6 +57,7 @@ class CJKSegmenter implements ISegmenter {
                 hit = Dictionary.getSingleton().matchWithHit(context.getSegmentBuff(), context.getCursor(), hit);
                 if (hit.isMatch()) {
                     //输出当前的词
+
                     Lexeme newLexeme = new Lexeme(context.getBufferOffset(), hit.getBegin(), context.getCursor() - hit.getBegin() + 1, Lexeme.TYPE_CNWORD);
                     List<Integer> corpusTypes = hit.getMatchedDictSegment().getCorpusTypes();
                     newLexeme.setCorpusTypes(corpusTypes);
@@ -78,9 +80,13 @@ class CJKSegmenter implements ISegmenter {
         if (singleCharHit.isMatch()) {//首字成词
             //输出当前的词
             Lexeme newLexeme = new Lexeme(context.getBufferOffset(), context.getCursor(), 1, Lexeme.TYPE_CNWORD);
-            List<Integer> corpusTypes = singleCharHit.getMatchedDictSegment().getCorpusTypes();
-            newLexeme.setCorpusTypes(corpusTypes);
-            context.addLexeme(newLexeme);
+           DictSegment matchedDictSegment= singleCharHit.getMatchedDictSegment();
+            if(matchedDictSegment!=null){
+                List<Integer> corpusTypes = matchedDictSegment.getCorpusTypes();
+                newLexeme.setCorpusTypes(corpusTypes);
+                context.addLexeme(newLexeme);
+
+            }
 
             //同时也是词前缀
             if (singleCharHit.isPrefix()) {
