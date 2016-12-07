@@ -7,8 +7,8 @@
     <name>IK_Analyzer</name>
     <description>IK_Analyzer</description>
     <properties>
-        <solr.version>4.6.1</solr.version>
-        <lucene.version>4.6.1</lucene.version>
+        <lucene.version>5.5.2</lucene.version>
+        <slf4j.version>1.6.6</slf4j.version>
     </properties>
       <distributionManagement> 
         <snapshotRepository> 
@@ -33,26 +33,40 @@
             <version>4.2.1</version>
         </dependency> -->
         <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>19.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-common</artifactId>
             <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queryparser</artifactId>
             <version>${lucene.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-core</artifactId>
             <version>${lucene.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.solr</groupId>
-            <artifactId>solr-core</artifactId>
-            <version>${solr.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.apache.solr</groupId>-->
+            <!--<artifactId>solr-core</artifactId>-->
+            <!--<version>${solr.version}</version>-->
+        <!--</dependency>-->
     </dependencies>
     <!-- <build>
 
