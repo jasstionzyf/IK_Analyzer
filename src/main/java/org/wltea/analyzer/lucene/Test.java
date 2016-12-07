@@ -1,7 +1,6 @@
 package org.wltea.analyzer.lucene;
 
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.wltea.analyzer.core.CorpusType;
 
@@ -14,17 +13,19 @@ public class Test {
         //Lucene Document的域名
         String fieldName = "text";
         //检索内容
-        String text = "中国里约";
+        String text = "蓝天白云沙滩海边Dr. Paul Gachet";
         //TokenizerFactory t=null;
         //实例化IKAnalyzer分词器
         IKTokenizer iKTokenizer = new IKTokenizer(new StringReader(text), true);
         while (iKTokenizer.incrementToken()) {
             CharTermAttribute charTermAttribute = iKTokenizer.getAttribute(CharTermAttribute.class);
-            OffsetAttribute offsetAttribute = iKTokenizer.getAttribute(OffsetAttribute.class);
             TypeAttribute typeAttribute = iKTokenizer.getAttribute(TypeAttribute.class);
-            System.out.print(charTermAttribute.toString() + "\n");
-            System.out.print(offsetAttribute.startOffset() + "-" + offsetAttribute.endOffset() + "\n");
-            System.out.print(typeAttribute.type() + "\n");
+            String term=charTermAttribute.toString();
+            String additionInfo=typeAttribute.type();
+
+            System.out.print(term + "\n");
+
+            System.out.print(additionInfo + "\n");
 
         }
 

@@ -24,9 +24,8 @@
  */
 package org.wltea.analyzer.lucene;
 
-import java.io.IOException;
-import java.io.Reader;
-
+import com.google.common.collect.Lists;
+import com.sun.deploy.util.StringUtils;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
@@ -35,6 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.wltea.analyzer.core.IKSegmenter;
 import org.wltea.analyzer.core.Lexeme;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.util.List;
 
 /**
  * IK分词器 Lucene Tokenizer适配器类 兼容Lucene 3.1以上版本
@@ -60,7 +63,8 @@ public final class IKTokenizer extends Tokenizer {
      * @param useSmart
      */
     public IKTokenizer(Reader in, boolean useSmart) {
-        super(in);
+        super();
+        setReader(in);
         offsetAtt = addAttribute(OffsetAttribute.class);
         termAtt = addAttribute(CharTermAttribute.class);
         typeAttribute = addAttribute(TypeAttribute.class);
@@ -87,10 +91,16 @@ public final class IKTokenizer extends Tokenizer {
             offsetAtt.setOffset(nextLexeme.getBeginPosition(), nextLexeme.getEndPosition());
             //记录分词的最后位置
             finalOffset = nextLexeme.getEndPosition();
-            String corpusTypeStr = "";
-            for (int corpusType : nextLexeme.getCorpusTypes()) {
-                corpusTypeStr += corpusType;
+            List<Integer> types=nextLexeme.getCorpusTypes();
+            List<String> types_str= Lists.newArrayList();
+
+            for(Integer type:types){
+                types_str.add(String.valueOf(type));
+
             }
+            String corpusTypeStr=StringUtils.join(types_str,"_");
+
+
             typeAttribute.setType(String.valueOf(nextLexeme.getLexemeType() + "_" + corpusTypeStr));
             //返会true告知还有下个词元
             return true;

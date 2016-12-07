@@ -255,9 +255,9 @@ public class DictSegment implements Comparable<DictSegment> {
 //               if(!ds.getCorpusTypes().contains(corpusType)){
 //                    ds.getCorpusTypes().add(corpusType);
 //               }
-                if (!corpusTypes.contains(corpusType)) {
-                    corpusTypes.add(corpusType);
-                }
+//                if (!corpusTypes.contains(corpusType)) {
+//                    corpusTypes.add(corpusType);
+//                }
                 if (!ds.getCorpusTypes().contains(corpusType)) {
                     ds.getCorpusTypes().add(corpusType);
                 }
