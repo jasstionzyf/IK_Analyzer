@@ -25,7 +25,7 @@
 package org.wltea.analyzer.lucene;
 
 import com.google.common.collect.Lists;
-import com.sun.deploy.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
@@ -98,7 +98,7 @@ public final class IKTokenizer extends Tokenizer {
                 types_str.add(String.valueOf(type));
 
             }
-            String corpusTypeStr=StringUtils.join(types_str,"_");
+            String corpusTypeStr= StringUtils.join(types_str,"_");
 
 
             typeAttribute.setType(String.valueOf(nextLexeme.getLexemeType() + "_" + corpusTypeStr));

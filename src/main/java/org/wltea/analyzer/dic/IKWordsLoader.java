@@ -81,15 +81,17 @@ public class IKWordsLoader implements WordsLoader {
     public Collection<Word> load() {
         Collection<Word> words = Lists.newArrayList();
         //读取扩展词典文件
-        String message = dicProp.getProperty("dicPath") + "message.dic";//1
-        String nickname = dicProp.getProperty("dicPath") + "nickname.dic";//2
-        String selfintroduce = dicProp.getProperty("dicPath") + "selfintroduce.dic";//3
-        String stopWords = dicProp.getProperty("dicPath") + "stopword.dic";//4
+        String dicFile = dicProp.getProperty("dicPath");
+//        String message = dicProp.getProperty("dicPath") + "message.dic";//1
+//        String nickname = dicProp.getProperty("dicPath") + "nickname.dic";//2
+//        String selfintroduce = dicProp.getProperty("dicPath") + "selfintroduce.dic";//3
+//        String stopWords = dicProp.getProperty("dicPath") + "stopword.dic";//4
 
-        words.addAll(loadFromOneFile(nickname, 2));
-        words.addAll(loadFromOneFile(message, 1));
-        words.addAll(loadFromOneFile(selfintroduce, 3));
-        words.addAll(loadFromOneFile(stopWords, 4));
+//        words.addAll(loadFromOneFile(nickname, 2));
+//        words.addAll(loadFromOneFile(message, 1));
+//        words.addAll(loadFromOneFile(selfintroduce, 3));
+//        words.addAll(loadFromOneFile(stopWords, 4));
+        words.addAll(loadFromOneFile(dicFile, 1));
         return words;
 
     }
