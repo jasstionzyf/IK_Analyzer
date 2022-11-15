@@ -5,17 +5,17 @@
  */
 package org.wltea.analyzer.dic;
 
-import com.google.common.collect.Lists;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collection;
 import java.util.Properties;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.collect.Lists;
 
 /**
  *
@@ -29,7 +29,7 @@ public class IKWordsLoader implements WordsLoader {
 
     static {
         try {
-            //load a properties file from class path, inside static method
+            // load a properties file from class path, inside static method
             dicProp.load(Dictionary.class.getClassLoader().getResourceAsStream("dic.properties"));
 
         } catch (IOException ex) {
@@ -43,8 +43,9 @@ public class IKWordsLoader implements WordsLoader {
         InputStream is = null;
         try {
 
-            is = new FileInputStream(filePath);
-        } catch (FileNotFoundException e1) {
+            // is = new FileInputStream(filePath);
+            is = Dictionary.class.getClassLoader().getResourceAsStream("keywords.dic");
+        } catch (Exception e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
@@ -80,17 +81,18 @@ public class IKWordsLoader implements WordsLoader {
     @Override
     public Collection<Word> load() {
         Collection<Word> words = Lists.newArrayList();
-        //读取扩展词典文件
+        // 读取扩展词典文件
         String dicFile = dicProp.getProperty("dicPath");
-//        String message = dicProp.getProperty("dicPath") + "message.dic";//1
-//        String nickname = dicProp.getProperty("dicPath") + "nickname.dic";//2
-//        String selfintroduce = dicProp.getProperty("dicPath") + "selfintroduce.dic";//3
-//        String stopWords = dicProp.getProperty("dicPath") + "stopword.dic";//4
+        // String message = dicProp.getProperty("dicPath") + "message.dic";//1
+        // String nickname = dicProp.getProperty("dicPath") + "nickname.dic";//2
+        // String selfintroduce = dicProp.getProperty("dicPath") +
+        // "selfintroduce.dic";//3
+        // String stopWords = dicProp.getProperty("dicPath") + "stopword.dic";//4
 
-//        words.addAll(loadFromOneFile(nickname, 2));
-//        words.addAll(loadFromOneFile(message, 1));
-//        words.addAll(loadFromOneFile(selfintroduce, 3));
-//        words.addAll(loadFromOneFile(stopWords, 4));
+        // words.addAll(loadFromOneFile(nickname, 2));
+        // words.addAll(loadFromOneFile(message, 1));
+        // words.addAll(loadFromOneFile(selfintroduce, 3));
+        // words.addAll(loadFromOneFile(stopWords, 4));
         words.addAll(loadFromOneFile(dicFile, 1));
         return words;
 
